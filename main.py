@@ -2,6 +2,7 @@
 
 import pyspark.sql
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import format_number
 
 # start an spark session
 # =================================
@@ -50,3 +51,22 @@ df.describe().show()
 # |    min|2016-08-09|        744.590027|             754.0|        727.539978|        736.080017|        736.080017|            346800|
 # |    max|2021-08-06|       2800.219971|       2800.219971|        2753.02002|       2792.889893|       2792.889893|           6207000|
 # +-------+----------+------------------+------------------+------------------+------------------+------------------+------------------+
+
+
+description = df.describe()
+description.select(
+    description["summary"],
+    format_number(
+        description["Open"].cast("float"),
+        2
+    ).alias("Opened")
+).show()
+# +-------+--------+
+# |summary|  Opened|
+# +-------+--------+
+# |  count|1,258.00|
+# |   mean|1,273.90|
+# | stddev|  442.86|
+# |    min|  744.59|
+# |    max|2,800.22|
+# +-------+--------+
