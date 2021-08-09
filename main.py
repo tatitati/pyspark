@@ -56,14 +56,8 @@ df.describe().show()
 description = df.describe()
 description.select(
     description["summary"],
-    format_number(
-        description["Open"].cast("float"),
-        2
-    ).alias("Opened"),
-    format_number(
-        description["High"].cast("float"),
-        2
-    ).alias("Highed")
+    format_number(description["Open"].cast("float"),2).alias("Opened"),
+    format_number(description["High"].cast("float"),2).alias("Highed")
 ).show()
 # +-------+--------+--------+
 # |summary|  Opened|  Highed|
