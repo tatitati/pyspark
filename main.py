@@ -11,6 +11,7 @@ spark = SparkSession.builder.appName("firstApp").getOrCreate()
 df = spark.read.csv("GOOG.csv", header=True, inferSchema=True)
 print(df)
 
+# perform basic dataframe operations
 
 
 
