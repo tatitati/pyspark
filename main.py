@@ -6,13 +6,13 @@ from pyspark.sql.functions import format_number
 
 # start an spark session
 # =================================
-spark = SparkSession.builder.appName("firstApp").getOrCreate()
+app = SparkSession.builder.appName("firstApp").getOrCreate()
 
 # load data into a datafrom from a csv
 # =================================
 
 # financial data here: https://finance.yahoo.com/quote/GOOG?p=GOOG&.tsrc=fin-srch
-df = spark.read.csv("GOOG.csv", header=True, inferSchema=True)
+df = app.read.csv("GOOG.csv", header=True, inferSchema=True)
 
 print(df)
 # DataFrame[Date: string, Open: double, High: double, Low: double, Close: double, Adj Close: double, Volume: int]
@@ -96,3 +96,26 @@ new_df.select("OV ratio").show()
 # |9.966302136317396E-4|
 # |8.050456363449903E-4|
 # |0.001055367994598...|
+
+df.orderBy(df["High"].desc()).show()
+
+# +----------+-----------+-----------+-----------+-----------+-----------+-------+
+# |      Date|       Open|       High|        Low|      Close|  Adj Close| Volume|
+# +----------+-----------+-----------+-----------+-----------+-----------+-------+
+# |2021-07-27|2800.219971|2800.219971|     2702.0|2735.929932|2735.929932|2108200|
+# |2021-07-26|     2765.0| 2794.26001| 2753.02002|2792.889893|2792.889893|1152600|
+# |2021-07-28| 2771.23999| 2793.52002|     2727.0|2727.629883|2727.629883|2734400|
+# |2021-07-23|2705.199951|2776.169922| 2694.01001|2756.320068|2756.320068|1318900|
+
+# Build SQL queries
+# =================================
+
+df.createOrReplaceTempView("stock")
+app.sql("select Date, Low from stock limit 3").show()
+# +----------+----------+
+# |      Date|       Low|
+# +----------+----------+
+# |2016-08-09|780.570007|
+# |2016-08-10|782.778015|
+# |2016-08-11|782.969971|
+# +----------+----------+
