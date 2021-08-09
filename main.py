@@ -59,14 +59,18 @@ description.select(
     format_number(
         description["Open"].cast("float"),
         2
-    ).alias("Opened")
+    ).alias("Opened"),
+    format_number(
+        description["High"].cast("float"),
+        2
+    ).alias("Highed")
 ).show()
-# +-------+--------+
-# |summary|  Opened|
-# +-------+--------+
-# |  count|1,258.00|
-# |   mean|1,273.90|
-# | stddev|  442.86|
-# |    min|  744.59|
-# |    max|2,800.22|
-# +-------+--------+
+# +-------+--------+--------+
+# |summary|  Opened|  Highed|
+# +-------+--------+--------+
+# |  count|1,258.00|1,258.00|
+# |   mean|1,273.90|1,286.47|
+# | stddev|  442.86|  447.52|
+# |    min|  744.59|  754.00|
+# |    max|2,800.22|2,800.22|
+# +-------+--------+--------+
