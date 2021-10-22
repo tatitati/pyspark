@@ -37,6 +37,7 @@ mydata2.show()
 # |  4|   Shannon| O'Griffin|  Male|  Divnomorskoye|Budget/Accounting...|$61489.23|44.5047212| 38.1300171|  Divnomorskoye|
 # |  5|  Sherwood|   Macieja|  Male|      Mytishchi|            VP Sales|$63863.09|      null| 37.6489954|      Mytishchi|
 
+# get rows with only not null jobTitle
 # null JobTitle => delete whole row
 mydata2 = mydata2.filter(mydata2.JobTitle.isNotNull())
 mydata2.show()
@@ -58,9 +59,13 @@ mean.show()
 # +-----------------+
 # |55516.32088199837|
 # +-----------------+
+
 mean = mydata2.groupby().avg("clean_salary").take(1)[0][0]
 print(mean)
 # 55516.32088199837
+
+# create column new_salary such as:
+# clean_salary is null ===> mean
 from pyspark.sql.functions import lit
 mydata2 = mydata2.withColumn("new_salary", when(mydata2.clean_salary.isNull(), lit(mean)).otherwise(mydata2.clean_salary))
 mydata2.show()
