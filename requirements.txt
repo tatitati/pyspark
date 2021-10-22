@@ -2,3 +2,4 @@ pyfunctional
 jsonschema
 pyspark
 numpy
+certifi
