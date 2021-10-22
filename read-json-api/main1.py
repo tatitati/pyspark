@@ -1,3 +1,4 @@
+#!/usr/local/bin/python3s
 from pyspark.sql import SparkSession
 from pyspark import SparkContext
 from pyspark.sql import functions as F
