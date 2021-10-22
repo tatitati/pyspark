@@ -16,6 +16,12 @@ df.printSchema()
 #  |-- name: string (nullable = true)
 
 df.show()
+# +--------------------+-------+
+# |           Education|   name|
+# +--------------------+-------+
+# |[{BE, 2011}, {ME,...| Clarke|
+# |        [{BE, 2010}]|Michael|
+# +--------------------+-------+
 
 flat=df.select(
     'name',
