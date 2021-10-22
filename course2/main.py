@@ -24,6 +24,7 @@ mydata.show()
 # Transform (cleaning, etc)
 # =========================
 
+# Add new column clean_city such as:
 # null city => "Unknown"
 mydata2 = mydata.withColumn("clean_city", when(mydata.City.isNull(), "Unknown").otherwise(mydata.City))
 mydata2.show()
