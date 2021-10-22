@@ -36,7 +36,11 @@ flat.show()
 # |Michael|    {BE, 2010}|
 # +-------+--------------+
 
-out_df=flat.select('name','education_flat.Qualification', 'education_flat.year')
+out_df=flat.select(
+    'name',
+    'education_flat.Qualification', 
+    'education_flat.year'
+)
 out_df.show()
 # +-------+-------------+----+
 # |   name|Qualification|year|
