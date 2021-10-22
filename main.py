@@ -1,5 +1,7 @@
 #!/usr/local/bin/python3
 
+# UDEMY URL: https://www.udemy.com/course/pyspark-build-dataframes-with-python-apache-spark-and-sql/learn/lecture/25144674#overview
+
 import pyspark.sql
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import format_number
@@ -8,7 +10,7 @@ from pyspark.sql.functions import format_number
 # =================================
 app = SparkSession.builder.appName("firstApp").getOrCreate()
 
-# load data into a datafrom from a csv
+# load data into a dataframe from a csv
 # =================================
 
 # financial data here: https://finance.yahoo.com/quote/GOOG?p=GOOG&.tsrc=fin-srch
@@ -111,6 +113,11 @@ df.orderBy(df["High"].desc()).show()
 # =================================
 
 df.createOrReplaceTempView("stock")
+
+result = app.sql("select Date, Low from stock limit 3")
+print(result)
+# DataFrame[Date: string, Low: double]
+
 app.sql("select Date, Low from stock limit 3").show()
 # +----------+----------+
 # |      Date|       Low|

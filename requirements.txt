@@ -1,0 +1,4 @@
+pyfunctional
+jsonschema
+pyspark
+findspark
