@@ -16,7 +16,6 @@ body = json.dumps({
 # response function - udf
 def executeRestApi(url, headers, body):
   res = None
-  # Make API request, get response object back, create dataframe from above schema.
   try:
       res = requests.get(url, data=body, headers=headers)
   except Exception as e:
@@ -52,8 +51,18 @@ request_df = spark.createDataFrame([
           ])\
           .withColumn("execute", udf_executeRestApi(col("url"), col("headers"), col("body")))
 
-request_df.select(explode(col("execute.Results")).alias("results"))\
-    .select(col("results.Make_ID"), col("results.Make_Name"))\
+request_df.show()
+# +--------------------+--------------------+----+--------------------+
+# |                 url|             headers|body|             execute|
+# +--------------------+--------------------+----+--------------------+
+# |https://vpic.nhts...|{content-type -> ...|  {}|{9854, Response r...|
+# +--------------------+--------------------+----+--------------------+
+
+request_df\
+    .select(explode(col("execute.Results")).alias("results"))\
+    .select(
+        col("results.Make_ID"),
+        col("results.Make_Name"))\
     .show()
 
 # |Make_ID|           Make_Name|
