@@ -5,8 +5,8 @@ from pyspark.sql import functions as F
 from urllib.request import Request, urlopen
 import certifi
 
-sc = SparkContext(master="local[*]", appName= "readJSON")
-spark = SparkSession.builder.getOrCreate()
+context = SparkContext(master="local[*]", appName="readJSON")
+session = SparkSession.builder.getOrCreate()
 
 # Online data source
 onlineData = 'https://randomuser.me/api/0.8/?results=10'
@@ -37,10 +37,10 @@ print(httpData)
 # }
 
 # convert into RDD
-rdd = sc.parallelize([httpData])
+rdd = context.parallelize([httpData])
 
 # create a Dataframe
-jsonDF = spark.read.json(rdd)
+jsonDF = session.read.json(rdd)
 jsonDF.show()
 # +-----------+--------------------+------------------+-------+
 # |nationality|             results|              seed|version|
