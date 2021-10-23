@@ -38,6 +38,8 @@ print(httpData)
 
 # convert into RDD
 rdd = context.parallelize([httpData])
+print(rdd)
+# ParallelCollectionRDD[0] at readRDDFromFile at PythonRDD.scala:274
 
 # create a Dataframe
 jsonDF = session.read.json(rdd)
