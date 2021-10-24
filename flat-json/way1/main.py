@@ -7,6 +7,9 @@ from pandas.io.json import json_normalize
 with open('dataset.json') as f:
     d = json.load(f)
 
+print(d)
+# {'programs': [{'season': '1842-43', 'orchestra': 'New York Philharmonic', 'concerts': [{'Date': '1842-12-07T05:00:00Z', 'eventType': 'Subscription Season',
+
 #lets put the data into a pandas df
 #clicking on raw_nyc_phil.json under "Input Files"
 #tells us parent node is 'programs'

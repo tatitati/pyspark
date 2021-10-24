@@ -3,6 +3,7 @@ from pyspark.sql import SparkSession
 from pyspark import SparkContext
 from pyspark.sql import functions as F
 from urllib.request import Request, urlopen
+from pandas.io.json import json_normalize
 from pyspark.sql.types import *
 import certifi
 
@@ -19,8 +20,8 @@ print(httpData)
 
 schema = StructType([
         StructField("iss_position", StructType([
-            StructField("latitude", StringType())
-            # StructField("longitude", StringType()) # --> I can specify exactly the fields I want to pick up in the dataframe, so I dont need to specify all the fields
+            StructField("latitude", StringType()),
+            StructField("longitude", StringType()) # --> I can specify exactly the fields I want to pick up in the dataframe, so I dont need to specify all the fields
         ])),
         StructField("message", StringType()),
         StructField("timestamp", LongType())
@@ -36,12 +37,24 @@ jsonDF.printSchema()
 # root
 #  |-- iss_position: struct (nullable = true)
 #  |    |-- latitude: string (nullable = true)
+#  |    |-- longitude: string(nullable=true)
 #  |-- message: string (nullable = true)
 #  |-- timestamp: long (nullable = true)
 
 jsonDF.show()
-# +------------+-------+----------+
-# |iss_position|message| timestamp|
-# +------------+-------+----------+
-# |  {-42.6785}|success|1635089061|
-# +------------+-------+----------+
+# +-------------------+-------+----------+
+# |       iss_position|message| timestamp|
+# +-------------------+-------+----------+
+# |{-38.6722, 47.6465}|success|1635105895|
+# +-------------------+-------+----------+
+
+print(jsonDF.select("iss_position.latitude").show())
+# +--------+
+# |latitude|
+# +--------+
+# | 11.9283|
+# +--------+
+
+# flat
+df = json_normalize(jsonDF.select("iss_position"))
+print(df)

@@ -6,7 +6,7 @@ from pyspark.sql.functions import explode
 
 spark = SparkSession.builder.appName("JSONFileRead").master("local").getOrCreate()
 
-df = spark.read.option("multiLine", True).json("dataset.json")
+df = spark.read.option("multiLine", True).json("dataset-infering-schema.json")
 df.printSchema()
 # root
 #  |-- Education: array (nullable = true)
@@ -14,6 +14,10 @@ df.printSchema()
 #  |    |    |-- Qualification: string (nullable = true)
 #  |    |    |-- year: long (nullable = true)
 #  |-- name: string (nullable = true)
+
+print(df.schema.json())
+# {"fields":[{"metadata":{},"name":"Education","nullable":true,"type":{"containsNull":true,"elementType":{"fields":[{"metadata":{},"name":"Qualification","nullable":true,"type":"string"},{"metadata":{},"name":"year","nullable":true,"type":"long"}],"type":"struct"},"type":"array"}},{"metadata":{},"name":"name","nullable":true,"type":"string"}],"type":"struct"}
+
 
 df.show()
 # +--------------------+-------+
