@@ -15,6 +15,7 @@ onlineData = 'http://api.open-notify.org/iss-now.json'
 # read the online data file
 httpData = urlopen(onlineData).read().decode('utf-8')
 print(httpData)
+# {"iss_position": {"latitude": "-42.6785", "longitude": "111.3685"}, "message": "success", "timestamp": 1635089061}
 
 schema = StructType([
         StructField("iss_position", StructType([
@@ -28,6 +29,19 @@ schema = StructType([
 # convert into RDD
 rdd = context.parallelize([httpData])
 print(rdd)
+# ParallelCollectionRDD[0] at readRDDFromFile at PythonRDD.scala:274
+
 jsonDF = spark.read.json(rdd, schema=schema)
 jsonDF.printSchema()
+# root
+#  |-- iss_position: struct (nullable = true)
+#  |    |-- latitude: string (nullable = true)
+#  |-- message: string (nullable = true)
+#  |-- timestamp: long (nullable = true)
+
 jsonDF.show()
+# +------------+-------+----------+
+# |iss_position|message| timestamp|
+# +------------+-------+----------+
+# |  {-42.6785}|success|1635089061|
+# +------------+-------+----------+
