@@ -3,7 +3,6 @@ from pyspark.sql import SparkSession
 from pyspark import SparkContext
 from pyspark.sql import functions as F
 from urllib.request import Request, urlopen
-from pyspark.sql.types import *
 import certifi
 
 context = SparkContext(master="local[*]", appName="readJSON")
@@ -44,38 +43,6 @@ print(rdd)
 
 # create a Dataframe
 jsonDF = session.read.json(rdd)
-print(jsonDF.printSchema())
-# schema = StructType([
-#     StructField("results", ArrayType(
-#         StructField("user", StructType([
-#                 StructField("gender", StringType()),
-#                 StructField("name", StructType([
-#                     StructField("title", StringType()),
-#                     StructField("first", StringType()),
-#                     StructField("last", StringType()),
-#                 ])),
-#                 StructField("location", StructType([
-#                     StructField("street", StringType()),
-#                     StructField("city", StringType()),
-#                     StructField("state", StringType()),
-#                     StructField("zip", StringType()),
-#                 ]))
-#             ]))
-#         )
-#     ),
-#     StructField("nationality", StringType()),
-#     StructField("seed", StringType()),
-#     StructField("version", FloatType())
-# ])
-
-# schema = StructType([
-#     StructField("results", StringType()),
-#     StructField("nationality", StringType()),
-#     StructField("seed", StringType()),
-#     StructField("version", FloatType())
-# ])
-
-jsonDF = session.read.schema(schema).json(rdd)
 jsonDF.show()
 # +-----------+--------------------+------------------+-------+
 # |nationality|             results|              seed|version|
