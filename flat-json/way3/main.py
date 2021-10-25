@@ -39,7 +39,9 @@ DF_Products = spark.read.json(rddJson)
 
 # ## Flatten this json
 
-df_flatten = DF_Products  .select("*", explode("Properties").alias("SubContent"))  .drop("Properties")
+df_flatten = DF_Products\
+    .select("*", explode("Properties").alias("SubContent"))\
+    .drop("Properties")
 df_flatten.show()
 # +----------+---------+--------------------+
 # |ProductNum|UnitCount|          SubContent|
@@ -49,7 +51,10 @@ df_flatten.show()
 # |   6000078|        3|    {sku_id, 312002}|
 # +----------+---------+--------------------+
 
-df_flatten_pivot = df_flatten  .groupBy("ProductNum","UnitCount")  .pivot("SubContent.key")  .agg(first("SubContent.value"))
+df_flatten_pivot = df_flatten\
+    .groupBy("ProductNum","UnitCount")\
+    .pivot("SubContent.key")\
+    .agg(first("SubContent.value"))
 df_flatten_pivot.show()
 # +----------+---------+----------+------+------+
 # |ProductNum|UnitCount|invoice_id|job_id|sku_id|
