@@ -17,8 +17,25 @@ from pyspark.sql.functions import first, last, kurtosis, min, mean, skewness
 from pyspark.sql.functions import stddev, stddev_samp, stddev_pop, sumDistinct
 from pyspark.sql.functions import variance,var_samp,  var_pop
 
-with open('dataset.json') as f:
-    d = json.load(f)
+# with open('dataset.json') as f:
+d = json.loads("""{
+   "ProductNum":"6000078",
+   "Properties":[
+      {
+         "key":"invoice_id",
+         "value":"923659"
+      },
+      {
+         "key":"job_id",
+         "value":"296160"
+      },
+      {
+         "key":"sku_id",
+         "value":"312002"
+      }
+   ],
+   "unitCount":"3"
+}""")
 
 flat_json_dict = [flatten(d) for i in d]
 print(flat_json_dict)
