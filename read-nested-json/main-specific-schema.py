@@ -23,3 +23,8 @@ sensor_schema = StructType(fields=[
 
 data_df = spark.read.option("multiLine", True).json("dataset-specific-schema.json", schema=sensor_schema)
 data_df.show()
+# +----------+----------+--------------------+
+# |sensorName|sensorDate|      sensorReadings|
+# +----------+----------+--------------------+
+# |    snx001|2020-01-01|[{1, 3.7465084060...|
+# +----------+----------+--------------------+
