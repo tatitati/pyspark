@@ -6,7 +6,34 @@ from pyspark.sql.functions import explode
 
 spark = SparkSession.builder.appName("JSONFileRead").master("local").getOrCreate()
 
-df = spark.read.option("multiLine", True).json("dataset-infering-schema.json")
+rawJson="""
+[
+  {
+    "name":"Clarke",
+    "Education": [
+      {
+        "Qualification":"BE",
+        "year":2011
+      },
+      {
+        "Qualification":"ME",
+        "year":2013
+      }
+    ]
+  },
+  {
+    "name" :"Michael",
+    "Education": [
+      {
+        "Qualification":"BE",
+        "year":2010
+      }
+    ]
+  }
+]
+"""
+rddJson = spark.sparkContext.parallelize([rawJson])
+df = spark.read.option("multiLine", True).json(rddJson)
 df.printSchema()
 # root
 #  |-- Education: array (nullable = true)

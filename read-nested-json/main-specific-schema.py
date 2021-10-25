@@ -7,6 +7,25 @@ from pyspark.sql.types import *
 
 spark = SparkSession.builder.appName("JSONFileRead").master("local").getOrCreate()
 
+rawJson="""
+{
+    "sensorName": "snx001",
+    "sensorDate": "2020-01-01",
+    "sensorReadings": [
+        {
+            "sensorChannel": 1,
+            "sensorReading": 3.7465084060850105,
+            "datetime": "2020-01-01 00:00:00"
+        },
+        {
+            "sensorChannel": 2,
+            "sensorReading": 10.543041369293153,
+            "datetime": "2020-01-01 00:00:00"
+        }
+    ]
+}
+"""
+
 sensor_schema = StructType(fields=[
     StructField('sensorName', StringType(), False),
     StructField('sensorDate', StringType(), True),
@@ -21,8 +40,9 @@ sensor_schema = StructType(fields=[
     )
 ])
 
-data_df = spark.read.option("multiLine", True).json("dataset-specific-schema.json", schema=sensor_schema)
-data_df.show()
+rddJson = spark.sparkContext.parallelize([rawJson])
+df = spark.read.option("multiLine", True).json(rddJson, schema=sensor_schema)
+df.show()
 # +----------+----------+--------------------+
 # |sensorName|sensorDate|      sensorReadings|
 # +----------+----------+--------------------+
