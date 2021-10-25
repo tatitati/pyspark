@@ -28,17 +28,7 @@ df.show(truncate=False)
 df.select("firstname","lastname").show()
 # df.select(df.firstname,df.lastname).show()
 # df.select(df["firstname"],df["lastname"]).show()
-# +---------+--------+
-# |firstname|lastname|
-# +---------+--------+
-# |    James|   Smith|
-# |  Michael|    Rose|
-# |   Robert|Williams|
-# |    Maria|   Jones|
-# +---------+--------+
-
-# col()
-df.select(col("firstname"),col("lastname")).show()
+# df.select(col("firstname"),col("lastname")).show()
 # +---------+--------+
 # |firstname|lastname|
 # +---------+--------+
