@@ -56,5 +56,10 @@ print(jsonDF.select("iss_position.latitude").show())
 # +--------+
 
 # flat
-df = json_normalize(jsonDF.select("iss_position"))
-print(df)
+df = jsonDF.select("iss_position")
+df.show()
+# +--------------------+
+# |        iss_position|
+# +--------------------+
+# |{-51.6238, 122.1086}|
+# +--------------------+
